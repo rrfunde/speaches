@@ -149,10 +149,8 @@ def get_model_repo_path(model_id: str, *, cache_dir: str | Path | None = None) -
 
     cache_dir = Path(cache_dir).expanduser().resolve()
     if not cache_dir.exists():
-        raise huggingface_hub.CacheNotFound(
-            f"Cache directory not found: {cache_dir}. Please use `cache_dir` argument or set `HF_HUB_CACHE` environment variable.",
-            cache_dir=cache_dir,
-        )
+        logger.debug(f"Cache directory does not exist: {cache_dir}")
+        return None
 
     if cache_dir.is_file():
         raise ValueError(
